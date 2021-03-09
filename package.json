@@ -1,0 +1,15 @@
+{
+  "name": "note-app",
+  "version": "1.0.0",
+  "description": "it's the command-line note taking app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ajay singh",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "yargs": "^12.0.0"
+  }
+}
