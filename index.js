@@ -1,9 +1,12 @@
-const chalk = require("chalk");
-const { string, argv } = require("yargs");
 const yargs = require("yargs");
+const chalk = require("chalk");
+
 const notes = require("./note");
+
 yargs.version("1.1.2");
-// node index.js add --title="ajay" --body="ajay singh"
+
+/* node index.js add --title="morning task" --body="go for running"
+ --> To add note with the title and body */
 yargs
   .command(
     "add",
@@ -18,45 +21,51 @@ yargs
         yarg.options("body", {
           type: "string",
           demandOption: true,
-          describe: " Note body",
-          default: "empty",
+          describe: "Note body",
+          default: "Not mentioned",
         });
     },
-    (argv) => {
-      notes.addNotes(argv.title, argv.body);
-      console.log("note has been added!!", argv.title, argv.body);
+    ({ title, body }) => {
+      notes.addNotes(title, body);
+      console.log(chalk.cyan("Note has been added!!"));
+      console.log("title : " + title);
+      console.log("body : " + body);
     }
   )
   .help().argv;
 
-// node index.js list
+/* node index.js list 
+  --> To list all their notes. */
 yargs.command("list", "To get the list of all tasks.", () => {
   const list = notes.loadNote();
   console.log(chalk.green("your notes are there"));
-  list.forEach((note) => {
-    debugger;
-    console.log(chalk.gray(note.title));
+  list.forEach(({ title, body }) => {
+    console.log(chalk.gray("title : " + title));
+    console.log(chalk.gray("body : " + body));
   });
-  console.log(chalk.green(list));
 });
 
-// node index.js read --title='aws'
+/* node index.js read --title='night task' 
+--> To list notes based on the title of the note */
+
 yargs.command(
   "read",
-  "To get the note, with specific title",
+  "To get the note based on specific title",
   (yarg) => {
     yarg.option("title", {
-      type: string,
-      describe: "title of the note",
+      type: String,
+      describe: "Title of the note",
       demandOption: true,
     });
   },
-  (argv) => {
-    notes.readNotes(argv.title);
+  ({ title }) => {
+    notes.readNotes(title);
   }
 );
 
-// node index.js remove --title="ajay"
+/* node index.js remove --title="Evening Task" 
+--> To remove the note based on the title */
+
 yargs
   .command(
     "remove",

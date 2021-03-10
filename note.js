@@ -1,6 +1,5 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const { title } = require("process");
 
 addNotes = (title, body) => {
   let notes = loadNote();
@@ -10,24 +9,27 @@ addNotes = (title, body) => {
 
   if (dublicateTitle.length === 0) {
     let newNote = {
-      title: title,
-      body: body,
+      title,
+      body,
     };
     notes.push(newNote);
     saveNote(notes);
-    console.log("Note has been Added!", notes);
+    console.log(
+      chalk.green.inverse("Note has been Added Successfully."),
+      notes
+    );
   } else {
-    console.log("Already exist note with same title.");
+    console.log(chalk.redBright("Note Already exist with same title."));
   }
 };
 
 readNotes = (title) => {
-  debugger;
   const notes = loadNote();
   const note = notes.find((notes) => notes.title === title);
   if (note) {
-    console.log(chalk.inverse(note.title));
-    console.log(note.body);
+    console.log(chalk.green.inverse("Note details"));
+    console.log(chalk.cyan("title : " + note.title));
+    console.log(chalk.cyan("body : " + note.body));
   } else {
     console.log(chalk.red.inverse("Note was not found!"));
   }
@@ -42,10 +44,10 @@ removeNotes = (title) => {
     saveNote(notesKeep);
     console.log(chalk.green.inverse("Note removed!!"));
   } else {
-    console.log(chalk.green.inverse("Note with title was not found!!"));
+    console.log(chalk.red.inverse("Note with title was not found!!"));
   }
 };
-
+// Fetch the list note from the note.json
 loadNote = () => {
   try {
     const buffer = fs.readFileSync("note.json");
@@ -55,14 +57,15 @@ loadNote = () => {
     return [];
   }
 };
-
+// save note into the note.json file
 saveNote = (notes) => {
   notes = JSON.stringify(notes);
   fs.writeFileSync("note.json", notes);
 };
+// ECMA6 new object property pinding
 module.exports = {
-  addNotes: addNotes,
-  removeNotes: removeNotes,
-  readNotes: readNotes,
-  loadNote: loadNote,
+  addNotes,
+  removeNotes,
+  readNotes,
+  loadNote,
 };
