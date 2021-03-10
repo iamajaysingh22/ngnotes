@@ -1,6 +1,6 @@
 # ngnotes
 
-> It's the command line tool to writes and reads notes to JSON file.
+> It's the command line tool to write and read notes to JSON file.
 
 # Statement
 
